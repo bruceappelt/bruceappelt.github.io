@@ -157,7 +157,7 @@
         }
 
         function displayTeaser() {
-            let teaserText = `Greetings, professor Falkin.\nShall we play a game?\n\n1. Global Thermonuclear War\n2. A nice game of chess\n3. 80s lyrics trivia\n\nYour answer: `;
+            let teaserText = `Greetings, professor Falken.\nShall we play a game?\n\n1. Global Thermonuclear War\n2. A nice game of chess\n3. 80s lyrics trivia\n\nYour answer: `;
             typeWriter(teaserText, () => {
                 let input = document.createElement('input');
                 input.type = 'text';
@@ -175,7 +175,7 @@
                         if (answer === 1) {
                             typeWriter("Strange game. The only winning move is not to play.\n\n",displayTeaser);
                         } else if (answer === 2) {
-                            typeWriter("Maybe later.\n\n",displayTeaser);
+                            setTimeout(typeWriter("Maybe later.\n\n",displayTeaser,5000);
                         } else if (answer === 3) {
                             displayQuestion();
                         }
