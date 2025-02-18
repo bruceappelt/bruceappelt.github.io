@@ -93,7 +93,7 @@
                 currentIndex++;
                 setTimeout(() => typeNextCharacter(callback), 30);
             } else if (callback) {
-                callback();
+                setTimeout(() => callback(),2000);
             }
         }
 
