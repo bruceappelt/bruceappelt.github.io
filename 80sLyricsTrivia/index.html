@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>80s Lyrics Trivia</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #console {
+            width: 90vw;
+            height: 90vh;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+            font-size: 40px;
+        }
+
+        input {
+            background-color: transparent;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-family: monospace;
+            font-size: 40px;
+            outline: none;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+        }
+
+        input::after {
+            content: '_';
+            animation: blink 1s infinite step-end;
+        }
+
+        @keyframes blink {
+            from, to {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="console"></div>
+
+    <script>
+        const consoleElement = document.getElementById('console');
+        let currentText = '';
+        let currentIndex = 0;
+        let score = 0;
+        let lives = 3;
+        let questions = [
+            { lyric: "Livin' on a prayer", song: "Livin' on a Prayer" },
+            { lyric: "Just a small town girl", song: "Don't Stop Believin'" },
+            { lyric: "Take on me", song: "Take on Me" },
+            { lyric: "Everybody wants to rule the world", song: "Everybody Wants to Rule the World" },
+            { lyric: "Sweet dreams are made of this", song: "Sweet Dreams (Are Made of This)" },
+            { lyric: "When doves cry", song: "When Doves Cry" },
+            { lyric: "Like a virgin", song: "Like a Virgin" },
+            { lyric: "You spin me round (like a record)", song: "You Spin Me Round (Like a Record)" },
+            { lyric: "We built this city on rock and roll", song: "We Built This City" },
+            { lyric: "Never gonna give you up", song: "Never Gonna Give You Up" },
+            { lyric: "Hungry like the wolf", song: "Hungry Like the Wolf" },
+            { lyric: "Walking on sunshine", song: "Walking on Sunshine" },
+            { lyric: "I wanna dance with somebody", song: "I Wanna Dance with Somebody (Who Loves Me)" },
+            { lyric: "Material girl", song: "Material Girl" },
+            { lyric: "Wake me up before you go-go", song: "Wake Me Up Before You Go-Go" }
+        ];
+
+        function typeWriter(text, callback) {
+            currentText = text;
+            currentIndex = 0;
+            consoleElement.innerHTML = '';
+            typeNextCharacter(callback);
+        }
+
+        function typeNextCharacter(callback) {
+            if (currentIndex < currentText.length) {
+                consoleElement.innerHTML += currentText.charAt(currentIndex);
+                currentIndex++;
+                setTimeout(() => typeNextCharacter(callback), 30);
+            } else if (callback) {
+                callback();
+            }
+        }
+
+        function displayQuestion() {
+             if (lives <= 0) {
+                displayGameOver();
+                return;
+            }
+            let question = questions[Math.floor(Math.random() * questions.length)];
+            let wrongAnswers = [];
+            while (wrongAnswers.length < 3) {
+                let randomSong = questions[Math.floor(Math.random() * questions.length)].song;
+                if (randomSong !== question.song && !wrongAnswers.includes(randomSong)) {
+                    wrongAnswers.push(randomSong);
+                }
+            }
+            let answers = [question.song, ...wrongAnswers].sort(() => Math.random() - 0.5);
+
+            let questionText = `80s lyrics trivia:\n ${score} points \n ${lives} lives\nWhich song contains the lyric "${question.lyric}"?\n1. ${answers[0]}\n2. ${answers[1]}\n3. ${answers[2]}\n4. ${answers[3]}\n\nYour answer: `;
+
+            typeWriter(questionText, () => {
+                let input = document.createElement('input');
+                input.type = 'text';
+                input.style.width = '40px';
+                input.style.height = '40px';
+                input.style.fontSize = '40px';
+                input.maxLength = 1;
+                consoleElement.appendChild(input);
+                input.focus();
+
+                input.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter') {
+                        let answer = parseInt(input.value);
+                        if (!isNaN(answer) && answer >= 1 && answer <= 4) {
+                            consoleElement.removeChild(input);
+                            if (answers[answer - 1] === question.song) {
+                                score += 10;
+                                typeWriter("Correct!\n\n", displayQuestion);
+                            } else {
+                                lives--;
+                                typeWriter("Incorrect!\n\n", displayQuestion);
+                            }
+                        }
+                    }
+                });
+                input.addEventListener("input", function() {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            });
+        }
+
+        function displayGameOver() {
+            let gameOverText = `
+ _____   _____   _____   _____   _____   _____   _____   _____  
+ | G |   | A |   | M |   | E |   | O |   | V |   | E |   | R | 
+ |_|_|   |_|_|   |_|_|   |_|_|   |_|_|   |_|_|   |_|_|   |_|_| 
+`;
+            typeWriter(gameOverText, () => {
+              consoleElement.innerHTML += "\n\nGAME OVER";
+            });
+        }
+
+        function displayTeaser() {
+            let teaserText = `Greetings, professor Falkin.\nShall we play a game?\n\n1. Global Thermonuclear War\n2. A nice game of chess\n3. 80s lyrics trivia\n\nYour answer: `;
+            typeWriter(teaserText, () => {
+                let input = document.createElement('input');
+                input.type = 'text';
+                input.style.width = '40px';
+                input.style.height = '40px';
+                input.style.fontSize = '40px';
+                input.maxLength = 1;
+                consoleElement.appendChild(input);
+                input.focus();
+
+                input.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter') {
+                        let answer = parseInt(input.value);
+                        consoleElement.removeChild(input);
+                        if (answer === 1) {
+                            typeWriter("Strange game. The only winning move is not to play.\n\n",displayTeaser);
+                        } else if (answer === 2) {
+                            typeWriter("Maybe later.\n\n",displayTeaser);
+                        } else if (answer === 3) {
+                            displayQuestion();
+                        }
+                    }
+                });
+                input.addEventListener("input", function() {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            });
+        }
+
+        displayTeaser();
+    </script>
+</body>
+</html>
