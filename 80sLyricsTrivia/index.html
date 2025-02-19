@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>80s Lyrics Trivia 202502181259</title>
+    <title>80s Lyrics Trivia 202502182128</title>
     <style>
         body {
             background-color: black;
@@ -54,10 +54,12 @@
     </style>
 </head>
 <body>
+    <audio src="play.mp3" autoplay="true" />
     <div id="console"></div>
 
     <script>
         const consoleElement = document.getElementById('console');
+        let wait=0;
         let currentText = '';
         let currentIndex = 0;
         let score = 0;
@@ -87,13 +89,14 @@
             typeNextCharacter(callback);
         }
 
-        function typeNextCharacter(callback) {
+        function typeNextCharacter(callback,def) {
             if (currentIndex < currentText.length) {
                 consoleElement.innerHTML += currentText.charAt(currentIndex);
                 currentIndex++;
                 setTimeout(() => typeNextCharacter(callback), 30);
             } else if (callback) {
-                setTimeout(() => callback(),2000);
+                
+                setTimeout(() => {callback();},wait);
             }
         }
 
@@ -112,8 +115,8 @@
             }
             let answers = [question.song, ...wrongAnswers].sort(() => Math.random() - 0.5);
 
-            let questionText = `80s lyrics trivia:\n ${score} points \n ${lives} lives\nWhich song contains the lyric "${question.lyric}"?\n1. ${answers[0]}\n2. ${answers[1]}\n3. ${answers[2]}\n4. ${answers[3]}\n\nYour answer: `;
-
+            let questionText = `80s lyrics trivia\n ${score} points        ${lives} lives\nWhich song contains the lyric "${question.lyric}"?\n1. ${answers[0]}\n2. ${answers[1]}\n3. ${answers[2]}\n4. ${answers[3]}\n\nYour answer: `;
+            wait=0;  
             typeWriter(questionText, () => {
                 let input = document.createElement('input');
                 input.type = 'text';
@@ -131,9 +134,11 @@
                             consoleElement.removeChild(input);
                             if (answers[answer - 1] === question.song) {
                                 score += 10;
+                                wait=1000;
                                 typeWriter("Correct!\n\n", displayQuestion);
                             } else {
                                 lives--;
+                                wait=1000;
                                 typeWriter("Incorrect!\nYou lost a life!\n", displayQuestion);
                             }
                         }
@@ -142,21 +147,23 @@
                 input.addEventListener("input", function() {
                     this.value = this.value.replace(/[^0-9]/g, '');
                 });
-            });
+            },0);
         }
 
         function displayGameOver() {
-            let gameOverText = `
- _____   _____   _____   _____   _____   _____   _____   _____  
- | G |   | A |   | M |   | E |   | O |   | V |   | E |   | R | 
- |_|_|   |_|_|   |_|_|   |_|_|   |_|_|   |_|_|   |_|_|   |_|_| 
-`;
-            typeWriter(gameOverText, () => {
-              consoleElement.innerHTML += "\n\nGAME OVER";
-            });
+            let gameOverText = ` 
+█▀▀ ▄▀█ █▀▄▀█ █▀▀
+█▄█ █▀█ █░▀░█ ██▄
+
+█▀█ █░█ █▀▀ █▀█
+█▄█ ▀▄▀ ██▄ █▀▄
+            `;
+            wait=3000;
+            typeWriter(gameOverText, () => {displayTeaser();});
         }
 
         function displayTeaser() {
+            wait=0;
             let teaserText = `Greetings, professor Falken.\nShall we play a game?\n\n1. Global Thermonuclear War\n2. A nice game of chess\n3. 80s lyrics trivia\n\nYour answer: `;
             typeWriter(teaserText, () => {
                 let input = document.createElement('input');
@@ -167,26 +174,31 @@
                 input.maxLength = 1;
                 consoleElement.appendChild(input);
                 input.focus();
+                //setTimeout(() => {input.focus();}, 500);
 
                 input.addEventListener('keydown', (event) => {
                     if (event.key === 'Enter') {
                         let answer = parseInt(input.value);
                         consoleElement.removeChild(input);
                         if (answer === 1) {
-                            typeWriter("Strange game. The only winning move is not to play.\n\n",displayTeaser);
+                            wait=3000;
+                            typeWriter("Strange game.\n The only winning move is not to play.\n\n",() =>{displayTeaser();},5000);
                         } else if (answer === 2) {
-                            typeWriter("Maybe later.\n\n",displayTeaser);
+                            wait=3000;
+                            typeWriter("Maybe later.\n\n",displayTeaser,3000);
                         } else if (answer === 3) {
+                            wait=0;
                             displayQuestion();
                         }
                     }
-                });
+                }
+                );
                 input.addEventListener("input", function() {
                     this.value = this.value.replace(/[^0-9]/g, '');
                 });
             });
         }
-
+        wait=0;
         displayTeaser();
     </script>
 </body>
