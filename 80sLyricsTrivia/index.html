@@ -179,6 +179,7 @@
             typeWriter(questionText, () => {
                 let input = document.createElement('input');
                 input.type = 'text';
+                input.inputmode='numeric';
                 input.pattern = '[1-4]';
                 input.minLength=1;
                 input.maxlength=1;
@@ -231,6 +232,7 @@
                 let input = document.createElement('input');
                 input.type = 'text';
                 input.pattern = '[1-3]';
+                input.inputmode='numeric';
                 input.minLength=1;
                 input.maxlength=1;
                 input.style.width = '40px';
