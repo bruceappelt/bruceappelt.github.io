@@ -192,26 +192,22 @@
                 consoleElement.appendChild(input);
                 input.focus();
 
-                input.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter') {
-                        let answer = parseInt(input.value);
-                        if (!isNaN(answer) && answer >= 1 && answer <= 4) {
-                            consoleElement.removeChild(input);
-                            if (answers[answer - 1] === question.song) {
-                                score += 10;
-                                wait=1000;
-                                typeWriter("Correct!\n\n", displayQuestion);
-                            } else {
-                                lives--;
-                                wait=1000;
-                                typeWriter("Incorrect!\nYou lost a life!\n", displayQuestion);
-                            }
+                input.addEventListener("input", function() {
+                    let answer = parseInt(input.value);
+                    if (!isNaN(answer) && answer >= 1 && answer <= 4) {
+                        consoleElement.removeChild(input);
+                        if (answers[answer - 1] === question.song) {
+                            score += 10;
+                            wait=1000;
+                            typeWriter("Correct!\n\n", displayQuestion);
+                        } else {
+                            lives--;
+                            wait=1000;
+                            typeWriter("Incorrect!\nYou lost a life!\n", displayQuestion);
                         }
                     }
-                });
-                input.addEventListener("input", function() {
-                    this.value = this.value.replace(/[^0-9]/g, '');
-                });
+                }
+                );
             },0);
         }
 
@@ -245,11 +241,9 @@ O    O    VV   E      R   R
                 input.style.fontSize = '40px';
                 consoleElement.appendChild(input);
                 input.focus();
-                //setTimeout(() => {input.focus();}, 500);
-
-                input.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter') {
-                        let answer = parseInt(input.value);
+                
+                input.addEventListener("input", function() {
+                    let answer = parseInt(input.value);
                         consoleElement.removeChild(input);
                         if (answer === 1) {
                             wait=3000;
@@ -261,11 +255,6 @@ O    O    VV   E      R   R
                             wait=0;
                             displayQuestion();
                         }
-                    }
-                }
-                );
-                input.addEventListener("input", function() {
-                    this.value = this.value.replace(/[^0-9]/g, '');
                 });
             });
         }
