@@ -3,10 +3,14 @@
 <head>
     <title>80s Lyrics Trivia!</title>
     <style>
+        @font-face {
+            font-family: "WOPR";
+            src: url('wopr-terminal.ttf') format("truetype");
+        }
         body {
             background-color: black;
-            color: #00ff00;
-            font-family: monospace;
+            color: #47829f;
+            font-family: "WOPR","MONOSPACE";
             margin: 0;
             padding: 0;
             display: flex;
@@ -18,23 +22,23 @@
         #console {
             width: 90vw;
             height: 90vh;
-            border: 2px solid #00ff00;
+            border: 2px solid #47829f;
             padding: 20px;
             overflow-y: auto;
             white-space: pre-wrap;
             box-sizing: border-box;
-            font-size: 40px;
+            font-size: 36px;
         }
 
         input {
             background-color: transparent;
-            border: 2px solid #00ff00;
-            color: #00ff00;
-            font-family: monospace;
-            font-size: 40px;
+            border: 2px solid #47829f;
+            color: #47829f;
+            font-family: "WOPR","MONOSPACE";
+            font-size: 36px;
             outline: none;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             text-align: center;
         }
 
@@ -227,7 +231,7 @@
 
         function displayTeaser() {
             wait=0;
-            let teaserText = `GREETINGS PROFESSOR FALKEN.\nSHALL WE PLAY A GAME?\n\n1. Global Thermonuclear War\n2. A nice game of chess\n3. 80s Lyrics Trivia\n\nYOUR ANSWER: `;
+            let teaserText = `GREETINGS PROFESSOR FALKEN.\nSHALL WE PLAY A GAME?\n\n1. GLOBAL THERMONUCLEAR WAR\n2. A NICE GAME OF CHESS\n3. 80s LYRICS TRIVIA\n\nYOUR ANSWER: `;
             typeWriter(teaserText, () => {
                 let input = document.createElement('input');
                 input.type = 'text';
