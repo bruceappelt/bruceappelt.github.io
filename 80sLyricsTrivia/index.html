@@ -223,7 +223,9 @@ O    O  V    V E      R   R
 O    O   V  V  EEE    RRRR
 O    O    VV   E      R   R
  OOOO     VV   EEEEEE R    R`;
-            wait=300
+            wait=300;
+            lives=3;
+            score=0;
             typeWriter(gameOverText, () => {displayTeaser();});
         }
 
@@ -240,14 +242,16 @@ O    O    VV   E      R   R
                 input.style.height = '40px';
                 input.style.fontSize = '40px';
                 consoleElement.appendChild(input);
-                input.focus();
+                setTimeout(() => {
+                    input.focus();
+                }, 3000); // Adjust the delay if needed
                 
                 input.addEventListener("input", function() {
                     let answer = parseInt(input.value);
                         consoleElement.removeChild(input);
                         if (answer === 1) {
                             wait=3000;
-                            typeWriter("STRANGE GAME.\nTHE ONLY WINNING MOVE IS NOT TO PLAY.\n\n",() =>{displayTeaser();},5000);
+                            typeWriter("A STRANGE GAME.\nTHE ONLY WINNING MOVE IS NOT TO PLAY.\n\n",() =>{displayTeaser();},5000);
                         } else if (answer === 2) {
                             wait=3000;
                             typeWriter("MAYBE LATER.\n\n",displayTeaser,3000);
