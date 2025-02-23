@@ -178,19 +178,17 @@
             }
             let answers = [question.song, ...wrongAnswers].sort(() => Math.random() - 0.5);
 
-            let questionText = `80s Lyrics Trivia\n ${score} POINTS        ${lives} LIVES\nWhich song contains the lyric "${question.lyric}"?\n1. ${answers[0]}\n2. ${answers[1]}\n3. ${answers[2]}\n4. ${answers[3]}\n\nYour answer: `;
+            let questionText = `      80s Lyrics Trivia\n      =================\n${score} POINTS        ${lives} LIVES\nWhich song contains the lyric "${question.lyric}"?\n1. ${answers[0]}\n2. ${answers[1]}\n3. ${answers[2]}\n4. ${answers[3]}\n\nYour answer: `;
             wait=0;  
             typeWriter(questionText, () => {
                 let input = document.createElement('input');
-                input.type = 'text';
+                input.type = 'tel';
                 input.inputmode='numeric';
-                input.pattern = '[1-4]';
-                input.minLength=1;
-                input.maxlength=1;
+                input.pattern = '[0-9]*';
+                input.maxLength=1;
                 input.style.width = '40px';
                 input.style.height = '40px';
                 input.style.fontSize = '40px';
-                input.maxLength = 1;
                 consoleElement.appendChild(input);
                 input.focus();
 
@@ -218,14 +216,18 @@
         }
 
         function displayGameOver() {
-            let gameOverText = ` 
-█▀▀ ▄▀█ █▀▄▀█ █▀▀
-█▄█ █▀█ █░▀░█ ██▄
+            let gameOverText = `GGGGGG    AA   MM  MM EEEEEE
+G       A    A M MM M E 
+G  GGG  AAAAAA M MM M EEE
+G    G  A    A M    M E
+GGGGGG  A    A M    M EEEEEE
 
-█▀█ █░█ █▀▀ █▀█
-█▄█ ▀▄▀ ██▄ █▀▄
-            `;
-            wait=3000;
+ OOOO   V    V EEEEEE RRRR
+O    O  V    V E      R   R
+O    O   V  V  EEE    RRRR
+O    O    VV   E      R   R
+ OOOO     VV   EEEEEE R    R`;
+            wait=300
             typeWriter(gameOverText, () => {displayTeaser();});
         }
 
@@ -234,15 +236,13 @@
             let teaserText = `GREETINGS PROFESSOR FALKEN.\nSHALL WE PLAY A GAME?\n\n1. GLOBAL THERMONUCLEAR WAR\n2. A NICE GAME OF CHESS\n3. 80s LYRICS TRIVIA\n\nYOUR ANSWER: `;
             typeWriter(teaserText, () => {
                 let input = document.createElement('input');
-                input.type = 'text';
-                input.pattern = '[1-3]';
+                input.type = 'tel';
                 input.inputmode='numeric';
-                input.minLength=1;
-                input.maxlength=1;
+                input.pattern = '[0-9]*';
+                input.maxLength=1;
                 input.style.width = '40px';
                 input.style.height = '40px';
                 input.style.fontSize = '40px';
-                input.maxLength = 1;
                 consoleElement.appendChild(input);
                 input.focus();
                 //setTimeout(() => {input.focus();}, 500);
